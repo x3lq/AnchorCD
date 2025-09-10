@@ -1,0 +1,15 @@
+repos:
+  - name: prod-blog
+    provider: github
+    repo: yourorg/prod-blog
+    branch: main
+    compose_path: infra/docker-compose.yml
+    working_dir: /var/lib/anchorcd/repos/prod-blog
+    deploy_host: local
+    webhooks:
+      outbound_url: https://hooks.example.com/anchorcd
+      hmac_secret: ${WEBHOOK_SECRET}
+    update_policy:
+      default: looks
+secrets:
+  github_token: ${GITHUB_TOKEN}
