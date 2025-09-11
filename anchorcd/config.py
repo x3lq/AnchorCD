@@ -18,17 +18,20 @@ class RepoCfg(BaseModel):
     name: str
     provider: Literal["github","gitlab"] = "github"
     repo: str                 # org/name or group/name
+    repo_url: str                 # org/name or group/name
     branch: str = "main"
-    compose_path: str
+    directory: str
     working_dir: str
     deploy_host: str = "local"
     webhooks: WebhookCfg = WebhookCfg()
     update_policy: dict = Field(default_factory=dict)  # { default: str, overrides: [PolicyOverride] }
-    pr: PRConfig = PRConfig()
+#    pr: PRConfig = PRConfig()
+    secret: Optional[str] = None  # key in secrets
 
 class Secrets(BaseModel):
     github_token: Optional[str] = None
     gitlab_token: Optional[str] = None
+    ssh_key: Optional[str] = None  # path to SSH private key
 
 class AppCfg(BaseModel):
     repos: List[RepoCfg]

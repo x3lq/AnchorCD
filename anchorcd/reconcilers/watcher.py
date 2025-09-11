@@ -51,8 +51,16 @@ def reconcile_on_merge(compose_path: str) -> tuple[bool, str]:
 
 def run_cycle(repo_cfg, secrets):
     # 1) sync repo
-    remote_url = f"https://github.com/{repo_cfg.repo}.git" if repo_cfg.provider == "github" else repo_cfg.repo
-    repo = ensure_repo(repo_cfg.working_dir, remote_url, repo_cfg.branch)
+    remote_url = repo_cfg.repo_url
+    print(repo_cfg)
+    print(secrets)
+
+    print(repo_cfg.secret)
+    print(repo_cfg.secret == "ssh_key")
+    if repo_cfg.secret == "ssh_key":
+        repo = ensure_repo(repo_cfg.name, repo_cfg.working_dir, remote_url, repo_cfg.branch, secrets.ssh_key)
+    return {"status": "noop"}
+
     compose_path = str(Path(repo_cfg.working_dir) / repo_cfg.compose_path)
 
     # 2) discover updates
